@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { Inter_400Regular, Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { BottomNavigation } from '../src/components/BottomNavigation';
 import { AccessibilityProvider, useAccessibility } from '../src/contexts/AccessibilityContext';
 import { AuthProvider, useAuth } from '../src/contexts/AuthContext';
 import { ReportDraftProvider } from '../src/contexts/ReportDraftContext';
@@ -49,7 +50,7 @@ function RootNavigator() {
   }
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: colors.screenBackground }}>
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -58,7 +59,8 @@ function RootNavigator() {
           animation: effectiveReduceMotion ? 'none' : 'default',
         }}
       />
-    </>
+      <BottomNavigation />
+    </View>
   );
 }
 
