@@ -1,25 +1,61 @@
 {
   "expo": {
-    "name": "ViaAlerta",
-    "slug": "ViaAlerta",
+    "name": "VíaAlerta",
+    "slug": "viaalerta",
+    "scheme": "viaalerta",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "pe.edu.ihm.viaalerta",
+      "infoPlist": {
+        "NSCameraUsageDescription": "VíaAlerta usa la cámara para tomar fotografías de baches y problemas en la vía pública.",
+        "NSPhotoLibraryUsageDescription": "VíaAlerta necesita acceso a tu galería para adjuntar fotografías de incidencias viales.",
+        "NSLocationWhenInUseUsageDescription": "VíaAlerta usa tu ubicación para situar con precisión las incidencias en el mapa."
+      }
     },
     "android": {
+      "package": "pe.edu.ihm.viaalerta",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#EAF1FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA"
+      ],
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-splash-screen",
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "VíaAlerta necesita acceso a tus fotos para adjuntar evidencias de incidencias viales.",
+          "cameraPermission": "VíaAlerta necesita acceso a la cámara para fotografiar incidencias viales."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "VíaAlerta usa tu ubicación para ubicar el problema vial en el mapa."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
     }
   }
 }
