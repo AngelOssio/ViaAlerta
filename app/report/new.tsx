@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import React, { useCallback, useState } from 'react';
+import { Image, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { useFocusEffect, useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import {
@@ -17,6 +17,7 @@ import { AppScreen } from '../../src/components/AppScreen';
 import { AppText } from '../../src/components/AppText';
 import { AppTextField } from '../../src/components/AppTextField';
 import { AlertBanner } from '../../src/components/FeedbackStates';
+import { ReportWebCamera } from '../../src/components/ReportWebCamera';
 import { useAccessibility } from '../../src/contexts/AccessibilityContext';
 import { useAuth } from '../../src/contexts/AuthContext';
 import { useReportDraft } from '../../src/contexts/ReportDraftContext';
@@ -48,6 +49,8 @@ export default function NewReportScreen() {
   const { draft, updateDraft } = useReportDraft();
 
   const [locating, setLocating] = useState(false);
+  const [webCameraOpen, setWebCameraOpen] = useState(false);
+  useFocusEffect(useCallback(() => () => setWebCameraOpen(false), []));
   const [permissionBanner, setPermissionBanner] = useState<{
     title: string;
     message: string;
@@ -73,8 +76,8 @@ export default function NewReportScreen() {
 
   const pickFromGallery = async () => {
     setPermissionBanner(null);
-    const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!perm.granted) {
+    setWebCameraOpen(false);
+    if (Platform.OS !== 'web' && !(await ImagePicker.requestMediaLibraryPermissionsAsync()).granted) {
       setPermissionBanner({
         title: 'Permiso de galería rechazado',
         message:
@@ -102,6 +105,10 @@ export default function NewReportScreen() {
 
   const takePhotoWithCamera = async () => {
     setPermissionBanner(null);
+    if (Platform.OS === 'web') {
+      setWebCameraOpen(true);
+      return;
+    }
     const perm = await ImagePicker.requestCameraPermissionsAsync();
     if (!perm.granted) {
       setPermissionBanner({
@@ -318,6 +325,7 @@ export default function NewReportScreen() {
               variant="secondary"
               icon={<Camera size={18} color={colors.brandPrimary} />}
               onPress={takePhotoWithCamera}
+              disabled={webCameraOpen}
             />
             <AppButton
               label="Elegir de galería"
@@ -327,6 +335,20 @@ export default function NewReportScreen() {
             />
           </View>
         </View>
+        {webCameraOpen && (
+          <ReportWebCamera
+            onClose={() => setWebCameraOpen(false)}
+            onCapture={(photoUri) => {
+              updateDraft({
+                photoUri,
+                photoFileName: 'camara_incidencia.jpg',
+                photoMimeType: 'image/jpeg',
+              });
+              setFieldErrors((prev) => ({ ...prev, photoUri: '' }));
+              setWebCameraOpen(false);
+            }}
+          />
+        )}
         {fieldErrors.photoUri ? (
           <AppText variant="note" color={colors.statusError}>
             {fieldErrors.photoUri}
