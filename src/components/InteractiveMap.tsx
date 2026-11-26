@@ -1,17 +1,16 @@
 import React from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MapView, { Marker, type MapPressEvent, type Region } from 'react-native-maps';
 import { useAccessibility } from '../contexts/AccessibilityContext';
-import { RADII, SPACING } from '../theme/tokens';
+import { RADII } from '../theme/tokens';
 import {
   DEFAULT_COORDS,
   getCategoryLabel,
   getStatusMeta,
   type PublicReport,
 } from '../types/domain';
-import { AppText } from './AppText';
 
-interface InteractiveMapProps {
+export interface InteractiveMapProps {
   height?: number;
   reports?: PublicReport[];
   selectedReportId?: string | null;
@@ -38,30 +37,6 @@ export function InteractiveMap({
     latitudeDelta: DEFAULT_COORDS.latitudeDelta,
     longitudeDelta: DEFAULT_COORDS.longitudeDelta,
   };
-
-  if (Platform.OS === 'web') {
-    return (
-      <View
-        style={[
-          styles.webFallback,
-          {
-            height,
-            backgroundColor: colors.brandSoftBackground,
-            borderColor: colors.borderNormal,
-          },
-        ]}
-      >
-        <AppText variant="label" color={colors.brandPrimary}>
-          Mapa interactivo nativo (Android / iOS)
-        </AppText>
-        <AppText variant="note" color={colors.textSecondary}>
-          {pickerCoordinate
-            ? `Punto seleccionado: ${pickerCoordinate.latitude.toFixed(5)}, ${pickerCoordinate.longitude.toFixed(5)}`
-            : `${reports.length} incidencias cargadas desde la base de datos.`}
-        </AppText>
-      </View>
-    );
-  }
 
   const handlePress = (event: MapPressEvent) => {
     if (onPickCoordinate) {
@@ -129,14 +104,5 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: RADII.card,
     overflow: 'hidden',
-  },
-  webFallback: {
-    width: '100%',
-    borderRadius: RADII.card,
-    borderWidth: 1,
-    padding: SPACING.xl,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: SPACING.md,
   },
 });
