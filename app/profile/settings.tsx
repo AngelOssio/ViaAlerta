@@ -54,7 +54,7 @@ export default function SettingsScreen() {
       >
         <View style={styles.prefRow}>
           <AppText variant="body" style={styles.flexText}>
-            Avisos de mis reportes (preferencia)
+            Preferencia de avisos de mis reportes
           </AppText>
           <AppText variant="label" color={colors.brandPrimary}>
             {notificationPrefs.notifyReportUpdates ? 'Activados' : 'Desactivados'}

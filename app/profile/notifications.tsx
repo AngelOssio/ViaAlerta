@@ -54,14 +54,8 @@ export default function NotificationsScreen() {
     <AppScreen onBack={() => router.back()}>
       <AppText variant="title">Notificaciones</AppText>
       <AppText variant="body" color={colors.textSecondary}>
-        Administra tus preferencias guardadas de avisos.
+        Administra tus preferencias de avisos.
       </AppText>
-
-      <AlertBanner
-        tone="info"
-        title="Alcance real del servicio en este MVP"
-        message="Estas opciones guardan tu preferencia en PostgreSQL. Los correos de confirmación de reporte utilizan la Edge Function con Resend cuando está configurado en el servidor. Las notificaciones push nativas (FCM/APNs) no están habilitadas en esta versión académica."
-      />
 
       {feedback ? (
         <AlertBanner
@@ -85,7 +79,7 @@ export default function NotificationsScreen() {
           <View style={styles.flexText}>
             <AppText variant="label">Confirmaciones por correo</AppText>
             <AppText variant="note" color={colors.textSecondary}>
-              Solicita correo al registrar un reporte (requiere proveedor Resend activo en Supabase).
+              Solicita una confirmación por correo al registrar un reporte.
             </AppText>
           </View>
           <Switch
@@ -102,7 +96,7 @@ export default function NotificationsScreen() {
           <View style={styles.flexText}>
             <AppText variant="label">Preferencia de avisos de cambio de estado</AppText>
             <AppText variant="note" color={colors.textSecondary}>
-              Guarda tu preferencia para futuras integraciones de avisos automáticos; actualmente el seguimiento se consulta en Mis reportes.
+              Consulta el estado de tus incidencias en Mis reportes.
             </AppText>
           </View>
           <Switch
