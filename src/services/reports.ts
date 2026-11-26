@@ -128,7 +128,7 @@ export async function fetchReportDetail(reportId: string): Promise<{
     supabase.from('public_reports').select('*').eq('id', reportId).single(),
     supabase
       .from('report_status_history')
-      .select('*')
+      .select('id, new_status, note, created_at')
       .eq('report_id', reportId)
       .order('created_at', { ascending: false }),
   ]);

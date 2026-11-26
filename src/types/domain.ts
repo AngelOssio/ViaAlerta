@@ -54,11 +54,8 @@ export interface Report extends PublicReport {
 
 export interface ReportStatusHistoryItem {
   id: string;
-  report_id: string;
-  previous_status: ReportStatus | null;
   new_status: ReportStatus;
   note: string | null;
-  changed_by: string | null;
   created_at: string;
 }
 
